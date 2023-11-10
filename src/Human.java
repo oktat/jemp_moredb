@@ -5,7 +5,9 @@ public class Human {
     public Human() {
         ds = new DataService(new Sqlite());
         // add();
-        getAll();
+        // getAll();
+        // update();
+        delete();
     }
     public void getAll() {
         ArrayList<Employee> empList = new ArrayList<>();
@@ -21,6 +23,15 @@ public class Human {
     public void add() {
         Employee emp = new Employee(0, "Erős István", "Szeged", 389.0);
         ds.crateEmployee(emp);
-        System.out.println("OK");
-    }    
+        System.out.println("Hozzáadás VÉGE");
+    }
+    public void update() {
+        Employee emp = new Employee(2, "Csendes Mária", "Szolnok", 392.0);
+        ds.updateEmployee(emp);
+        System.out.println("Frissítés VÉGE");
+    }
+    public void delete() {
+        ds.deleteEmployee(4);
+        System.out.println("Törlés VÉGE");
+    }
 }

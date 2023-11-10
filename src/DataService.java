@@ -69,15 +69,47 @@ class DataService implements iDataService {
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEmployee'");
+    public void updateEmployee(Employee emp) {
+        try {
+            tryUpdateEmployee(emp);
+        } catch (SQLException e) {
+            System.err.println("Hiba! A frissítés sikertelen!");
+            System.err.println(e.getMessage());
+        }
+    }
+    public void tryUpdateEmployee(Employee emp)
+            throws SQLException {
+        Connection conn = database.connectDb();
+        String sql = "update employee set " +
+        "name=?, city=?, salary=?" +
+        "where id=?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, emp.name);
+        pstmt.setString(2, emp.city);
+        pstmt.setDouble(3, emp.salary);
+        pstmt.setDouble(4, emp.id);
+        pstmt.execute();
+        database.close(conn);
     }
 
     @Override
     public void deleteEmployee(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteEmployee'");
+        try {
+            tryDeleteEmployee(id);
+        } catch (SQLException e) {
+            System.err.println("Hiba! A törlés sikertelen!");
+            System.err.println(e.getMessage());
+        }
+    }
+    public void tryDeleteEmployee(int id) 
+            throws SQLException {
+        Connection conn = database.connectDb();
+        String sql = "delete from employee " +
+        "where id=?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setDouble(1, id);
+        pstmt.executeUpdate();
+        database.close(conn);
     }
     
 }
