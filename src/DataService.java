@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-class DataService implements iDataService {
-    iDatabase database;
-    public DataService(iDatabase database) {
+class DataService implements DataAccess {
+    Database database;
+    public DataService(Database database) {
         this.database = database;
     }
 
@@ -50,7 +50,7 @@ class DataService implements iDataService {
         try {
             tryCrateEmployee(emp);
         } catch (SQLException e) {
-            System.err.println("Hiba! A dolgozók létrehozása sikertelen!");
+            System.err.println("Hiba! A dolgozó létrehozása sikertelen!");
             System.err.println(e.getMessage());
         }
     }
@@ -65,7 +65,9 @@ class DataService implements iDataService {
         pstmt.setString(2, emp.city);
         pstmt.setDouble(3, emp.salary);
         pstmt.execute();
+        System.out.println(pstmt.getGeneratedKeys().getInt(1));
         database.close(conn);
+        
     }
 
     @Override
@@ -89,6 +91,7 @@ class DataService implements iDataService {
         pstmt.setDouble(3, emp.salary);
         pstmt.setDouble(4, emp.id);
         pstmt.execute();
+        System.out.println(pstmt.getUpdateCount());
         database.close(conn);
     }
 
@@ -109,6 +112,7 @@ class DataService implements iDataService {
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setDouble(1, id);
         pstmt.executeUpdate();
+        System.out.println(pstmt.getUpdateCount());
         database.close(conn);
     }
     
